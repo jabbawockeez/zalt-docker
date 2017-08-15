@@ -1,0 +1,20 @@
+#FROM django:1.10.4-python2
+FROM python:2.7
+
+ENV BASEDIR /code
+
+RUN mkdir -p ${BASEDIR}
+
+WORKDIR ${BASEDIR}
+
+EXPOSE 8000
+
+COPY requirements.txt ${BASEDIR}
+RUN pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+
+COPY startup.sh /startup.sh
+
+#ADD zalt ${BASEDIR}
+
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+

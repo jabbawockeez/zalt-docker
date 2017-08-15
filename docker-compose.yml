@@ -1,0 +1,28 @@
+version: "2"
+
+services:
+    web:
+        restart: always
+        build: ./web
+        image: jabba/zalt
+        container_name: zalt
+        ports:
+            - "9999:8000"
+        links:
+            - db:db
+              #- redis:redis
+        volumes:
+            - ./web/zalt:/code
+        command: ["/startup.sh"]
+
+
+    db:
+        #image: vsamov/mysql-5.1.73
+        image: mysql:5.7
+        container_name: db
+        expose: 
+            - "3306"
+        volumes:
+            - ./db/data:/var/lib/mysql
+            - ./db/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+        env_file: ./db/.env
